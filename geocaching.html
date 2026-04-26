@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1a1a2e">
+<title>Chasse au Tresor - Moulin du Roy</title>
+<style>
+:root{--bg:#1a1a2e;--bg2:#16213e;--accent:#e94560;--accent2:#0f3460;--text:#eee;--text2:#999;--ok:#2ecc71;--warn:#f39c12}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;overflow-x:hidden}
+#app{min-height:100vh;min-height:100dvh}
+.screen{display:none;flex-direction:column;min-height:100vh;min-height:100dvh;padding:20px}
+.screen.active{display:flex}
+.btn{background:var(--accent);color:#fff;border:none;padding:15px 30px;border-radius:12px;font-size:1.1em;font-weight:600;cursor:pointer;transition:transform .1s;-webkit-tap-highlight-color:transparent;width:100%;max-width:320px}
+.btn:active{transform:scale(.96)}
+.btn.sec{background:var(--accent2)}
+.btn:disabled{opacity:.4}
+
+/* Splash */
+#splash{justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)}
+#splash .logo{font-size:4.5em;margin-bottom:10px}
+#splash h1{font-size:1.8em;margin-bottom:6px}
+#splash .sub{color:var(--text2);margin-bottom:40px;font-size:1.05em}
+
+/* Team select */
+#team-select{padding-top:30px;align-items:center}
+#team-select h2{text-align:center;margin-bottom:20px}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:400px}
+.team-card{background:var(--bg2);border:2px solid transparent;border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;transition:border-color .2s,transform .1s}
+.team-card:active{transform:scale(.97)}
+.team-card.selected{border-color:var(--accent)}
+.team-card .em{font-size:1.8em}
+.team-card .nm{font-weight:600;font-size:.9em;margin-top:4px}
+#team-go{margin-top:20px}
+
+/* Navigation */
+#navigation{align-items:center;text-align:center;justify-content:flex-start;padding-top:15px;gap:8px}
+.nav-top{width:100%;display:flex;justify-content:space-between;align-items:center}
+.badge{padding:5px 12px;border-radius:20px;font-size:.85em;font-weight:600}
+.progress{width:100%;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.progress .fill{height:100%;background:var(--accent);border-radius:3px;transition:width .5s}
+
+.compass-box{position:relative;width:220px;height:220px;margin:10px auto}
+.compass-ring{width:100%;height:100%;border:3px solid var(--accent2);border-radius:50%;position:relative}
+.compass-arrow{position:absolute;top:50%;left:50%;width:4px;height:85px;background:var(--accent);transform-origin:bottom center;transform:translate(-50%,-100%) rotate(0deg);border-radius:2px;transition:transform .3s ease-out}
+.compass-arrow::after{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:14px solid var(--accent)}
+.compass-dot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:12px;height:12px;background:var(--text);border-radius:50%}
+.compass-n{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-weight:700;font-size:.8em;color:var(--text2)}
+
+.dist{font-size:3em;font-weight:700;line-height:1}
+.dist .u{font-size:.35em;color:var(--text2);font-weight:400}
+.proximity{padding:6px 18px;border-radius:20px;font-weight:600;font-size:.9em}
+.prox-far{background:#e74c3c30;color:#e74c3c}
+.prox-warm{background:#f39c1230;color:#f39c12}
+.prox-hot{background:#2ecc7130;color:#2ecc71}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(46,204,113,.4)}70%{box-shadow:0 0 0 18px rgba(46,204,113,0)}100%{box-shadow:0 0 0 0 rgba(46,204,113,0)}}
+.pulsing{animation:pulse 1.4s infinite}
+
+.hint{background:var(--bg2);border-radius:10px;padding:14px;width:100%;font-style:italic;color:var(--text2);line-height:1.4;font-size:.95em}
+.coords{font-family:monospace;color:var(--text2);font-size:.8em;margin-top:2px}
+.coords a{color:var(--accent);text-decoration:none}
+
+.code-section{width:100%;display:none}
+.code-section.vis{display:block}
+.code-row{display:flex;justify-content:center;gap:8px;margin:12px 0}
+.code-digit{width:52px;height:60px;background:var(--bg2);border:2px solid var(--accent2);border-radius:10px;color:var(--text);font-size:1.6em;text-align:center;font-weight:700;-webkit-appearance:none;appearance:none}
+.code-digit:focus{border-color:var(--accent);outline:none}
+.code-err{color:#e74c3c;font-size:.9em;min-height:1.2em;margin-top:4px}
+.gps-err{background:#e74c3c30;color:#e74c3c;padding:10px;border-radius:8px;width:100%;display:none;font-size:.9em}
+.gps-err.vis{display:block}
+
+/* Success overlay */
+#success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100;flex-direction:column;justify-content:center;align-items:center;padding:25px;text-align:center}
+#success-overlay.active{display:flex}
+#success-overlay .icon{font-size:4em;margin-bottom:15px}
+#success-overlay h2{margin-bottom:8px;font-size:1.4em}
+#success-overlay .challenge{background:var(--bg2);border-radius:12px;padding:18px;margin:18px 0;line-height:1.5;font-size:.95em;max-width:360px}
+#success-overlay .challenge strong{color:var(--warn)}
+
+/* Final */
+#final{justify-content:center;align-items:center;text-align:center;gap:16px}
+.frag-box{background:var(--bg2);border:3px solid var(--accent);border-radius:16px;padding:28px;margin:10px 0}
+.frag-box .word{font-size:2.4em;font-weight:800;color:var(--accent)}
+.frag-box .pos{color:var(--text2);margin-top:6px;font-size:.95em}
+.timer-result{color:var(--text2);font-size:1.1em}
+
+/* Admin */
+#admin{padding-top:30px;overflow-y:auto}
+#admin h2{text-align:center;margin-bottom:16px}
+.adm-team{background:var(--bg2);border-radius:10px;padding:14px;margin-bottom:12px}
+.adm-team h3{margin-bottom:8px;font-size:1em}
+.adm-step{display:flex;justify-content:space-between;padding:4px 0;font-size:.85em;border-bottom:1px solid #ffffff10}
+.adm-step:last-child{border:none}
+.adm-code{font-family:monospace;color:var(--accent);font-weight:700}
+.adm-back{text-align:center;margin-top:20px;padding-bottom:30px}
+
+/* Demo banner */
+.demo-banner{background:var(--warn);color:#000;text-align:center;padding:6px;font-size:.8em;font-weight:600;position:fixed;top:0;left:0;right:0;z-index:200}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ===== SPLASH ===== -->
+<div id="splash" class="screen active">
+  <div class="logo">🏇</div>
+  <h1>Chasse au Tresor</h1>
+  <div class="sub">Moulin du Roy</div>
+  <button class="btn" onclick="showScreen('team-select')">Commencer</button>
+  <br>
+  <button class="btn sec" style="margin-top:12px;font-size:.85em" onclick="showScreen('admin')">Mode Organisateur</button>
+</div>
+
+<!-- ===== TEAM SELECT ===== -->
+<div id="team-select" class="screen"></div>
+
+<!-- ===== NAVIGATION ===== -->
+<div id="navigation" class="screen"></div>
+
+<!-- ===== SUCCESS OVERLAY ===== -->
+<div id="success-overlay">
+  <div class="icon"></div>
+  <h2></h2>
+  <div class="challenge"></div>
+  <button class="btn" style="max-width:280px"></button>
+</div>
+
+<!-- ===== FINAL ===== -->
+<div id="final" class="screen"></div>
+
+<!-- ===== ADMIN ===== -->
+<div id="admin" class="screen"></div>
+
+</div>
+
+<script>
+// ================================================================
+//  DONNEES DU JEU
+//  >> REMPLACER LES COORDONNEES PAR LES VRAIES AVANT LE JOUR J <<
+// ================================================================
+
+const LOCATIONS = {
+  garage_velo:  { name:"Garage a velo",     lat:46.50020, lng:-0.50150, code:"4271", hint:"L'abri des deux-roues, pres de l'entree du domaine" },
+  bureaux:      { name:"Bureaux",           lat:46.50060, lng:-0.50120, code:"8634", hint:"La ou les papiers s'empilent et les stylos travaillent" },
+  etang:        { name:"Etang",             lat:46.50110, lng:-0.50100, code:"3159", hint:"Surface calme ou se refletent les arbres" },
+  moulin:       { name:"Moulin du Roy",     lat:46.50055, lng:-0.50075, code:"7402", hint:"Le batiment qui donne son nom au domaine" },
+  salle_fetes:  { name:"Salle des fetes",   lat:46.50010, lng:-0.50060, code:"5916", hint:"On y danse et on y chante les grands soirs" },
+  ecuries:      { name:"Ecuries",           lat:46.50040, lng:-0.50030, code:"6283", hint:"Au centre du rond-point, les chevaux y reposent" },
+  poulailler:   { name:"Poulailler",        lat:46.50075, lng:-0.50025, code:"1947", hint:"Cot cot cot ! Le royaume des gallinaces" },
+  comtois:      { name:"Chalet Comtois",    lat:46.50115, lng:-0.49990, code:"5038", hint:"Au coeur du Poney Village, sous le grand toit pointu" },
+  connemara:    { name:"Chalet Connemara",  lat:46.50125, lng:-0.49950, code:"9264", hint:"Le plus grand batiment du Poney Village" },
+  fjord:        { name:"Chalet Fjord",      lat:46.50100, lng:-0.50015, code:"3751", hint:"Un chalet qui porte le nom d'un bras de mer nordique" },
+  frisson:      { name:"Chalet Frisson",    lat:46.50095, lng:-0.50005, code:"7149", hint:"Son nom vous fera fremir... de plaisir !" },
+  merens:       { name:"Chalet Merens",     lat:46.50135, lng:-0.50010, code:"2586", hint:"Ce chalet porte le nom d'un cheval noir des Pyrenees" },
+  pottok:       { name:"Chalet Pottok",     lat:46.50135, lng:-0.49980, code:"4823", hint:"Petit cheval basque, petit chalet" },
+  landais:      { name:"Chalet Landais",    lat:46.50130, lng:-0.49995, code:"6371", hint:"Des Landes vient ce petit cheval" },
+  pre:          { name:"Le Pre",            lat:46.50155, lng:-0.49920, code:"9015", hint:"Le grand espace vert tout en haut du domaine" },
+  piscine:      { name:"Piscine",           lat:46.50105, lng:-0.49910, code:"3827", hint:"On y plonge quand le soleil brille" },
+  carrieres:    { name:"Carrieres",         lat:46.50025, lng:-0.49890, code:"5194", hint:"Les chevaux galopent en cercle, le tracteur veille" }
+};
+
+const CHALLENGES = {
+  garage_velo:  "Chaque membre de l'equipe doit nommer une marque de velo differente !",
+  bureaux:      "Comptez le nombre de fenetres des bureaux et notez-le !",
+  etang:        "Photo d'equipe : tout le monde imite le canard !",
+  moulin:       "Trouvez un detail architectural sur la facade du Moulin et decrivez-le.",
+  salle_fetes:  "Toute l'equipe doit chanter un refrain en choeur !",
+  ecuries:      "Combien de boxes comptez-vous dans les ecuries ?",
+  poulailler:   "Chaque membre fait son meilleur cri de coq !",
+  comtois:      "De quelle region de France vient le cheval Comtois ? (Franche-Comte !)",
+  connemara:    "Dans quel pays se trouve le Connemara ? (Irlande !)",
+  fjord:        "De quel pays vient le Fjord ? (Norvege !)",
+  frisson:      "Racontez une mini histoire effrayante en 30 secondes !",
+  merens:       "De quelle couleur est le cheval Merens ? (Noir !)",
+  pottok:       "Dans quelles montagnes vit le Pottok ? (Pyrenees !)",
+  landais:      "Quel est le numero du departement des Landes ? (40 !)",
+  pre:          "Defi sportif : sprint en equipe jusqu'a la cloture et retour !",
+  piscine:      "Un membre mime un sport aquatique, les autres devinent !",
+  carrieres:    "Chaque membre mime un animal de la ferme different !"
+};
+
+const TEAMS = [
+  { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["garage_velo","etang","connemara","pre","carrieres"],       fragment:{word:"LE",      pos:1} },
+  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","comtois","piscine","ecuries"],       fragment:{word:"COFFRE",  pos:2} },
+  { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","fjord","moulin","merens"],        fragment:{word:"EST",     pos:3} },
+  { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","pre","pottok","garage_velo","salle_fetes"],       fragment:{word:"CACHE",   pos:4} },
+  { id:5,  name:"Les Percherons",  emoji:"🐎", color:"#1abc9c", route:["moulin","frisson","carrieres","poulailler","piscine"],      fragment:{word:"SOUS",    pos:5} },
+  { id:6,  name:"Les Camarguais",  emoji:"🐴", color:"#3498db", route:["etang","salle_fetes","landais","ecuries","pre"],            fragment:{word:"LA",      pos:6} },
+  { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","garage_velo","piscine","moulin"],  fragment:{word:"GRANDE",  pos:7} },
+  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["pre","ecuries","merens","salle_fetes","etang"],             fragment:{word:"PIERRE",  pos:8} },
+  { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","comtois","garage_velo"],  fragment:{word:"DU",      pos:9} },
+  { id:10, name:"Les Lusitaniens", emoji:"🐴", color:"#fd79a8", route:["connemara","piscine","frisson","etang","salle_fetes"],      fragment:{word:"MOULIN",  pos:10} }
+];
+
+// Phrase finale : "LE COFFRE EST CACHE SOUS LA GRANDE PIERRE DU MOULIN"
+
+// ================================================================
+//  ETAT
+// ================================================================
+let state = { teamIdx:null, step:0, watchId:null, pos:null, heading:null, demo:false, startTime:null };
+
+// ================================================================
+//  UTILITAIRES
+// ================================================================
+function haversine(lat1,lng1,lat2,lng2){
+  const R=6371000,toR=Math.PI/180;
+  const dLat=(lat2-lat1)*toR, dLng=(lng2-lng1)*toR;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*toR)*Math.cos(lat2*toR)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function bearingTo(lat1,lng1,lat2,lng2){
+  const toR=Math.PI/180;
+  const dL=(lng2-lng1)*toR;
+  const y=Math.sin(dL)*Math.cos(lat2*toR);
+  const x=Math.cos(lat1*toR)*Math.sin(lat2*toR)-Math.sin(lat1*toR)*Math.cos(lat2*toR)*Math.cos(dL);
+  return(Math.atan2(y,x)*180/Math.PI+360)%360;
+}
+function fmtDist(m){
+  if(m>=1000) return (m/1000).toFixed(1)+'<span class="u"> km</span>';
+  return Math.round(m)+'<span class="u"> m</span>';
+}
+function fmtTime(ms){
+  const s=Math.floor(ms/1000), m=Math.floor(s/60), h=Math.floor(m/60);
+  if(h>0) return h+'h'+String(m%60).padStart(2,'0')+'min'+String(s%60).padStart(2,'0')+'s';
+  return m+'min '+String(s%60).padStart(2,'0')+'s';
+}
+function $(id){return document.getElementById(id)}
+function team(){return TEAMS[state.teamIdx]}
+function curLoc(){const t=team(); return LOCATIONS[t.route[state.step]];}
+
+// ================================================================
+//  GPS
+// ================================================================
+function startGPS(){
+  if(state.watchId) navigator.geolocation.clearWatch(state.watchId);
+  if(!navigator.geolocation){showGPSError("GPS non disponible sur cet appareil");return;}
+  state.watchId=navigator.geolocation.watchPosition(
+    p=>{state.pos={lat:p.coords.latitude,lng:p.coords.longitude};updateNav();hideGPSError();},
+    e=>{
+      if(e.code===1) showGPSError("Activez la localisation dans les parametres de votre navigateur, puis rechargez.");
+      else showGPSError("Signal GPS en cours d'acquisition...");
+    },
+    {enableHighAccuracy:true,maximumAge:3000,timeout:15000}
+  );
+}
+function stopGPS(){if(state.watchId){navigator.geolocation.clearWatch(state.watchId);state.watchId=null;}}
+function showGPSError(msg){const el=$('gps-err');if(el){el.textContent=msg;el.classList.add('vis');}}
+function hideGPSError(){const el=$('gps-err');if(el)el.classList.remove('vis');}
+
+// ================================================================
+//  BOUSSOLE
+// ================================================================
+function initCompass(){
+  if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
+    DeviceOrientationEvent.requestPermission().then(r=>{if(r==='granted')window.addEventListener('deviceorientation',onOrient);}).catch(()=>{});
+  } else {
+    window.addEventListener('deviceorientation',onOrient);
+  }
+}
+function onOrient(e){
+  if(e.webkitCompassHeading!=null) state.heading=e.webkitCompassHeading;
+  else if(e.alpha!=null) state.heading=(360-e.alpha)%360;
+}
+
+// ================================================================
+//  ECRANS
+// ================================================================
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  if(name==='team-select') renderTeamSelect();
+  else if(name==='navigation') renderNav();
+  else if(name==='final') renderFinal();
+  else if(name==='admin') renderAdmin();
+  const el=$(name);
+  if(el) el.classList.add('active');
+}
+
+function renderTeamSelect(){
+  const el=$('team-select');
+  let h='<h2>Choisissez votre equipe</h2><div class="team-grid">';
+  TEAMS.forEach((t,i)=>{
+    h+=`<div class="team-card" data-idx="${i}" onclick="selectTeam(${i})" style="border-color:transparent">
+      <div class="em">${t.emoji}</div><div class="nm" style="color:${t.color}">${t.name}</div></div>`;
+  });
+  h+='</div><button id="team-go" class="btn" disabled onclick="startGame()">C\'est parti !</button>';
+  // Demo toggle
+  h+='<label style="margin-top:16px;display:flex;align-items:center;gap:8px;color:var(--text2);font-size:.85em;cursor:pointer">';
+  h+='<input type="checkbox" id="demo-check" onchange="state.demo=this.checked"> Mode demo (sans GPS)</label>';
+  el.innerHTML=h;
+}
+
+function selectTeam(idx){
+  state.teamIdx=idx;
+  document.querySelectorAll('.team-card').forEach((c,i)=>{
+    c.style.borderColor=i===idx?TEAMS[idx].color:'transparent';
+    c.classList.toggle('selected',i===idx);
+  });
+  $('team-go').disabled=false;
+}
+
+function startGame(){
+  if(state.teamIdx===null) return;
+  state.step=0;
+  state.startTime=Date.now();
+  showScreen('navigation');
+  if(!state.demo){startGPS();initCompass();}
+  else demoTick();
+}
+
+function renderNav(){
+  const t=team(), loc=curLoc(), locKey=t.route[state.step];
+  const pct=((state.step)/t.route.length*100).toFixed(0);
+  let h=state.demo?'<div class="demo-banner">MODE DEMO - Coordonnees simulees</div>':'';
+  h+=`<div class="nav-top">
+    <span class="badge" style="background:${t.color}30;color:${t.color}">${t.emoji} ${t.name}</span>
+    <span class="badge" style="background:var(--accent2)">Etape ${state.step+1}/${t.route.length}</span>
+  </div>`;
+  h+=`<div class="progress"><div class="fill" style="width:${pct}%"></div></div>`;
+  h+=`<div class="compass-box"><div class="compass-ring"><span class="compass-n">N</span><div class="compass-arrow" id="arrow"></div><div class="compass-dot"></div></div></div>`;
+  h+=`<div class="dist" id="dist-display">---<span class="u"> m</span></div>`;
+  h+=`<div class="proximity" id="prox">Recherche GPS...</div>`;
+  h+=`<div class="hint">"${loc.hint}"</div>`;
+  // Show coordinates for Google Maps fallback
+  h+=`<div class="coords">GPS : <a href="https://maps.google.com/?q=${loc.lat},${loc.lng}" target="_blank">${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)}</a></div>`;
+  h+=`<div class="gps-err" id="gps-err"></div>`;
+  // Code input section
+  h+=`<div class="code-section" id="code-section">
+    <div style="font-weight:600;margin-bottom:4px">Entrez le code de la cachette :</div>
+    <div class="code-row">
+      <input class="code-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="0">
+      <input class="code-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="1">
+      <input class="code-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="2">
+      <input class="code-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]" data-i="3">
+    </div>
+    <div class="code-err" id="code-err"></div>
+    <button class="btn" onclick="validateCode()" style="margin:0 auto">Valider</button>
+  </div>`;
+  $('navigation').innerHTML=h;
+
+  // Auto-advance on digit input
+  document.querySelectorAll('.code-digit').forEach(inp=>{
+    inp.addEventListener('input',function(){
+      if(this.value.length===1){
+        const next=this.parentElement.querySelector(`[data-i="${+this.dataset.i+1}"]`);
+        if(next) next.focus();
+      }
+    });
+    inp.addEventListener('keydown',function(e){
+      if(e.key==='Backspace'&&!this.value){
+        const prev=this.parentElement.querySelector(`[data-i="${+this.dataset.i-1}"]`);
+        if(prev){prev.focus();prev.value='';}
+      }
+    });
+  });
+
+  if(state.demo) demoTick();
+}
+
+function updateNav(){
+  if(!state.pos) return;
+  const loc=curLoc();
+  const dist=haversine(state.pos.lat,state.pos.lng,loc.lat,loc.lng);
+  const bear=bearingTo(state.pos.lat,state.pos.lng,loc.lat,loc.lng);
+
+  // Distance
+  const distEl=$('dist-display');
+  if(distEl) distEl.innerHTML=fmtDist(dist);
+
+  // Arrow rotation
+  const arrow=$('arrow');
+  if(arrow){
+    const rot=state.heading!=null?(bear-state.heading+360)%360:bear;
+    arrow.style.transform=`translate(-50%,-100%) rotate(${rot}deg)`;
+  }
+
+  // Proximity
+  const prox=$('prox');
+  const codeSection=$('code-section');
+  if(prox){
+    if(dist>150){
+      prox.className='proximity prox-far';
+      prox.textContent='Vous etes loin... continuez a chercher !';
+      if(codeSection) codeSection.classList.remove('vis');
+    } else if(dist>30){
+      prox.className='proximity prox-warm';
+      prox.textContent='Vous vous rapprochez !';
+      if(codeSection) codeSection.classList.remove('vis');
+    } else {
+      prox.className='proximity prox-hot pulsing';
+      prox.textContent='Vous brulez ! Cherchez la cachette !';
+      if(codeSection) codeSection.classList.add('vis');
+    }
+  }
+}
+
+// Demo mode: simulate being close
+function demoTick(){
+  if(!state.demo) return;
+  const loc=curLoc();
+  state.pos={lat:loc.lat+0.00005*(Math.random()-.5), lng:loc.lng+0.00005*(Math.random()-.5)};
+  state.heading=0;
+  updateNav();
+}
+
+function validateCode(){
+  const digits=document.querySelectorAll('.code-digit');
+  let code='';
+  digits.forEach(d=>code+=d.value);
+  if(code.length!==4){$('code-err').textContent='Entrez les 4 chiffres';return;}
+
+  const t=team(), locKey=t.route[state.step], loc=LOCATIONS[locKey];
+  if(code===loc.code){
+    showSuccess(locKey);
+  } else {
+    $('code-err').textContent='Code incorrect ! Cherchez mieux...';
+    digits.forEach(d=>d.value='');
+    digits[0].focus();
+    if(navigator.vibrate) navigator.vibrate(200);
+  }
+}
+
+function showSuccess(locKey){
+  const ov=$('success-overlay');
+  const isLast=state.step>=team().route.length-1;
+  ov.querySelector('.icon').textContent='✅';
+  ov.querySelector('h2').textContent='Bravo ! Indice trouve !';
+  ov.querySelector('.challenge').innerHTML=`<strong>Defi bonus :</strong><br>${CHALLENGES[locKey]}`;
+  ov.querySelector('.btn').textContent=isLast?'Decouvrir votre fragment !':'Etape suivante';
+  ov.querySelector('.btn').onclick=()=>{
+    ov.classList.remove('active');
+    if(isLast){stopGPS();showScreen('final');}
+    else{state.step++;renderNav();if(!state.demo)startGPS();}
+  };
+  ov.classList.add('active');
+  if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+}
+
+function renderFinal(){
+  const t=team();
+  const elapsed=Date.now()-state.startTime;
+  let h=`<div class="logo" style="font-size:3em">🏆</div>`;
+  h+=`<h1>Felicitations !</h1>`;
+  h+=`<div class="timer-result">Temps : ${fmtTime(elapsed)}</div>`;
+  h+=`<div class="frag-box">
+    <div style="color:var(--text2);font-size:.9em;margin-bottom:8px">Votre fragment secret :</div>
+    <div class="word">${t.fragment.word}</div>
+    <div class="pos">Mot n&deg;${t.fragment.pos} sur 10</div>
+  </div>`;
+  h+=`<div style="background:var(--bg2);border-radius:10px;padding:16px;line-height:1.5;font-size:.95em">
+    <strong>Mission finale :</strong><br>
+    Retournez a la <strong>Salle des Fetes</strong> avec votre fragment.<br>
+    Assemblez les 10 mots de toutes les equipes pour decouvrir ou se cache le tresor !
+  </div>`;
+  h+=`<div style="color:var(--text2);font-size:.8em;margin-top:10px">
+    Phrase complete : mot 1 + mot 2 + ... + mot 10</div>`;
+  $('final').innerHTML=h;
+}
+
+function renderAdmin(){
+  let h='<h2>Mode Organisateur</h2>';
+  h+='<div style="background:var(--bg2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:.9em;line-height:1.5">';
+  h+='<strong>Phrase secrete :</strong><br>"LE COFFRE EST CACHE SOUS LA GRANDE PIERRE DU MOULIN"<br><br>';
+  h+='<strong>Preparation :</strong> A chaque lieu, cachez un petit contenant (tupperware, boite, sachet zip) avec a l\'interieur un papier plastifie indiquant le <strong>code a 4 chiffres</strong> du lieu.<br><br>';
+  h+='<strong>Important :</strong> Chaque lieu a UN SEUL code, quel que soit l\'equipe qui le visite.</div>';
+
+  // Locations summary
+  h+='<div style="margin-bottom:16px"><h3 style="margin-bottom:8px">Codes par lieu (a cacher)</h3>';
+  Object.entries(LOCATIONS).forEach(([key,loc])=>{
+    h+=`<div class="adm-step"><span>${loc.name}</span><span class="adm-code">${loc.code}</span></div>`;
+  });
+  h+='</div>';
+
+  // Team routes
+  TEAMS.forEach(t=>{
+    h+=`<div class="adm-team"><h3 style="color:${t.color}">${t.emoji} ${t.name} — Fragment : "${t.fragment.word}" (mot n${t.fragment.pos})</h3>`;
+    t.route.forEach((locKey,i)=>{
+      const loc=LOCATIONS[locKey];
+      h+=`<div class="adm-step"><span>${i+1}. ${loc.name}</span><span class="adm-code">${loc.code}</span></div>`;
+    });
+    h+='</div>';
+  });
+
+  h+='<div class="adm-back"><button class="btn sec" onclick="showScreen(\'splash\')">Retour</button></div>';
+  $('admin').innerHTML=h;
+}
+
+// ================================================================
+//  INIT
+// ================================================================
+showScreen('splash');
+// Keep demo ticking
+setInterval(()=>{if(state.demo&&document.querySelector('#navigation.active'))demoTick();},2000);
+</script>
+</body>
+</html>
