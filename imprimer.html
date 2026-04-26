@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Chasse au Tresor - Moulin du Roy - Documents a imprimer</title>
+<style>
+@page{size:A4;margin:15mm}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,Helvetica,sans-serif;color:#222;font-size:11pt;line-height:1.4}
+.page{page-break-after:always;padding:10px 0;min-height:250mm}
+.page:last-child{page-break-after:avoid}
+
+h1{font-size:22pt;text-align:center;margin-bottom:4px}
+h2{font-size:16pt;margin-bottom:10px;border-bottom:2px solid #e94560;padding-bottom:4px;color:#e94560}
+h3{font-size:12pt;margin-bottom:6px}
+
+.subtitle{text-align:center;font-size:12pt;color:#666;margin-bottom:20px}
+
+/* Cover */
+.cover{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:260mm}
+.cover .logo{font-size:80pt;margin-bottom:20px}
+.cover h1{font-size:32pt;margin-bottom:8px}
+.cover .sub{font-size:14pt;color:#666}
+.cover .info{margin-top:40px;font-size:11pt;color:#888;line-height:1.8}
+
+/* Rules */
+.rules-box{background:#f5f5f5;border-radius:8px;padding:16px;margin:12px 0;line-height:1.6}
+.rules-box li{margin-bottom:8px}
+.rules-box strong{color:#e94560}
+
+/* Table */
+table{width:100%;border-collapse:collapse;margin:10px 0}
+th,td{border:1px solid #ccc;padding:6px 10px;text-align:left;font-size:10pt}
+th{background:#e94560;color:#fff;font-weight:600}
+tr:nth-child(even){background:#f9f9f9}
+.code-cell{font-family:monospace;font-size:14pt;font-weight:700;text-align:center;color:#e94560;letter-spacing:3px}
+
+/* Team sheet */
+.team-sheet{border:2px solid #333;border-radius:10px;padding:20px;margin:10px 0}
+.team-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid}
+.team-name{font-size:18pt;font-weight:700}
+.team-emoji{font-size:30pt}
+.team-qr{text-align:center;margin:16px 0}
+.team-qr img{width:180px;height:180px;border:2px solid #333;border-radius:8px}
+.team-route{margin:12px 0}
+.team-route .step{display:flex;align-items:center;padding:6px 0;border-bottom:1px solid #eee}
+.team-route .step-num{background:#e94560;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:10pt;margin-right:10px;flex-shrink:0}
+.team-instructions{background:#f5f5f5;border-radius:8px;padding:12px;margin-top:12px;font-size:10pt;line-height:1.5}
+
+/* Cache labels */
+.labels-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+.label-card{border:2px dashed #999;border-radius:8px;padding:14px;text-align:center}
+.label-card .loc-name{font-weight:700;font-size:11pt;margin-bottom:6px}
+.label-card .loc-code{font-family:monospace;font-size:28pt;font-weight:800;color:#e94560;letter-spacing:5px}
+.label-card .loc-note{font-size:8pt;color:#999;margin-top:4px}
+
+/* Checklist */
+.checklist{list-style:none;margin:10px 0}
+.checklist li{padding:8px 0;border-bottom:1px solid #eee;display:flex;align-items:flex-start;gap:8px}
+.checklist li::before{content:'☐';font-size:14pt;flex-shrink:0}
+
+/* No print elements */
+.no-print{background:#e94560;color:#fff;padding:12px 20px;text-align:center;font-weight:600;cursor:pointer;border-radius:8px;border:none;font-size:12pt;margin:10px auto;display:block}
+.no-print:hover{background:#c0392b}
+@media print{
+  .no-print{display:none!important}
+  body{font-size:10pt}
+}
+</style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">Imprimer tout (Ctrl+P)</button>
+
+<!-- ===================================================================
+     PAGE 1 : COUVERTURE
+     =================================================================== -->
+<div class="page cover">
+  <div class="logo">🏇</div>
+  <h1>Chasse au Tresor</h1>
+  <div class="sub">Moulin du Roy</div>
+  <div class="info">
+    ~80 participants | 10 equipes de 8<br>
+    Duree : 1h30 a 2h<br>
+    Geocaching GPS + codes secrets
+  </div>
+</div>
+
+<!-- ===================================================================
+     PAGE 2 : REGLES A LIRE AU BRIEFING
+     =================================================================== -->
+<div class="page">
+  <h2>Regles du jeu (a lire a tout le monde)</h2>
+
+  <h3>Bienvenue a la Chasse au Tresor du Moulin du Roy !</h3>
+  <div class="rules-box">
+    <ol>
+      <li><strong>Vous etes repartis en 10 equipes.</strong> Chaque equipe a un telephone avec l'application ouverte.</li>
+      <li><strong>Votre telephone vous guide</strong> vers des points GPS sur le domaine. Suivez la boussole et la distance affichee.</li>
+      <li><strong>A chaque point</strong>, cherchez une <strong>cachette</strong> (petite boite). A l'interieur : un papier avec un <strong>code a 4 chiffres</strong>.</li>
+      <li><strong>Entrez le code dans l'appli</strong> pour debloquer l'etape suivante. Un petit defi bonus vous sera propose !</li>
+      <li><strong>Chaque equipe a 5 etapes</strong>, toutes differentes. Impossible de copier sur les autres !</li>
+      <li><strong>A la derniere etape</strong>, votre telephone revelera un <strong>mot secret</strong>.</li>
+      <li><strong>Revenez a la Salle des Fetes</strong> avec votre mot. Les 10 mots des 10 equipes forment une phrase qui revele <strong>l'emplacement du tresor final</strong> !</li>
+      <li>Remettez les codes dans les cachettes apres les avoir lus (pour les equipes suivantes si besoin).</li>
+      <li><strong>Temps limite : 1h30.</strong> Au coup de sifflet, tout le monde revient !</li>
+    </ol>
+  </div>
+
+  <h3 style="margin-top:16px">Conseils</h3>
+  <div class="rules-box">
+    <ul>
+      <li>Si le GPS est imprecis, utilisez le lien Google Maps affiche sous la boussole.</li>
+      <li>Les cachettes sont toujours accessibles sans danger. Pas besoin de grimper ou de se mettre en danger.</li>
+      <li>Respectez les lieux, les animaux et les autres equipes !</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================================================================
+     PAGE 3 : FICHE ORGANISATEUR - LISTE DES CACHETTES
+     =================================================================== -->
+<div class="page">
+  <h2>Fiche Organisateur - Les 17 cachettes</h2>
+  <p style="margin-bottom:10px;color:#666">Cachez un contenant etanche a chaque lieu avec le code sur un papier plastifie a l'interieur.</p>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>Lieu</th><th>Code</th><th>Cache ou ?</th><th>Fait</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Garage a velo</td><td class="code-cell">4271</td><td></td><td>☐</td></tr>
+      <tr><td>2</td><td>Bureaux</td><td class="code-cell">8634</td><td></td><td>☐</td></tr>
+      <tr><td>3</td><td>Etang</td><td class="code-cell">3159</td><td></td><td>☐</td></tr>
+      <tr><td>4</td><td>Moulin du Roy</td><td class="code-cell">7402</td><td></td><td>☐</td></tr>
+      <tr><td>5</td><td>Salle des fetes</td><td class="code-cell">5916</td><td></td><td>☐</td></tr>
+      <tr><td>6</td><td>Ecuries</td><td class="code-cell">6283</td><td></td><td>☐</td></tr>
+      <tr><td>7</td><td>Poulailler</td><td class="code-cell">1947</td><td></td><td>☐</td></tr>
+      <tr><td>8</td><td>Chalet Comtois</td><td class="code-cell">5038</td><td></td><td>☐</td></tr>
+      <tr><td>9</td><td>Chalet Connemara</td><td class="code-cell">9264</td><td></td><td>☐</td></tr>
+      <tr><td>10</td><td>Chalet Fjord</td><td class="code-cell">3751</td><td></td><td>☐</td></tr>
+      <tr><td>11</td><td>Chalet Frisson</td><td class="code-cell">7149</td><td></td><td>☐</td></tr>
+      <tr><td>12</td><td>Chalet Merens</td><td class="code-cell">2586</td><td></td><td>☐</td></tr>
+      <tr><td>13</td><td>Chalet Pottok</td><td class="code-cell">4823</td><td></td><td>☐</td></tr>
+      <tr><td>14</td><td>Chalet Landais</td><td class="code-cell">6371</td><td></td><td>☐</td></tr>
+      <tr><td>15</td><td>Le Pre</td><td class="code-cell">9015</td><td></td><td>☐</td></tr>
+      <tr><td>16</td><td>Piscine</td><td class="code-cell">3827</td><td></td><td>☐</td></tr>
+      <tr><td>17</td><td>Carrieres</td><td class="code-cell">5194</td><td></td><td>☐</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top:16px">Phrase secrete finale</h3>
+  <div class="rules-box">
+    <strong>"LE COFFRE EST CACHE SOUS LA GRANDE PIERRE DU MOULIN"</strong>
+  </div>
+
+  <h3 style="margin-top:12px">Checklist pre-evenement</h3>
+  <ul class="checklist">
+    <li>Preparer 17 contenants etanches (tupperware, sachets zip...)</li>
+    <li>Imprimer et plastifier les 17 codes (page des etiquettes)</li>
+    <li>Cacher les 17 contenants aux bons emplacements</li>
+    <li>Cacher le coffre au tresor a l'endroit de la phrase</li>
+    <li>Verifier que le WiFi/4G fonctionne sur le site</li>
+    <li>Imprimer les 10 fiches equipes avec QR codes</li>
+    <li>Preparer 10 telephones charges (ou demander 1 tel par equipe)</li>
+    <li>Preparer le contenu du coffre (prix, bonbons, boissons...)</li>
+    <li>Preparer un sifflet pour le signal de fin</li>
+    <li>Tester l'appli sur 2-3 cachettes avant le jour J</li>
+  </ul>
+</div>
+
+<!-- ===================================================================
+     PAGE 4 : ETIQUETTES A DECOUPER POUR LES CACHETTES
+     =================================================================== -->
+<div class="page">
+  <h2>Etiquettes a decouper et glisser dans les cachettes</h2>
+  <p style="margin-bottom:10px;color:#666">Decoupez, plastifiez si possible, et placez dans chaque contenant.</p>
+
+  <div class="labels-grid">
+    <div class="label-card">
+      <div class="loc-name">Garage a velo</div>
+      <div class="loc-code">4271</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Bureaux</div>
+      <div class="loc-code">8634</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Etang</div>
+      <div class="loc-code">3159</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Moulin du Roy</div>
+      <div class="loc-code">7402</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Salle des fetes</div>
+      <div class="loc-code">5916</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Ecuries</div>
+      <div class="loc-code">6283</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Poulailler</div>
+      <div class="loc-code">1947</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Chalet Comtois</div>
+      <div class="loc-code">5038</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Chalet Connemara</div>
+      <div class="loc-code">9264</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Chalet Fjord</div>
+      <div class="loc-code">3751</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Chalet Frisson</div>
+      <div class="loc-code">7149</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Chalet Merens</div>
+      <div class="loc-code">2586</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Chalet Pottok</div>
+      <div class="loc-code">4823</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Chalet Landais</div>
+      <div class="loc-code">6371</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Le Pre</div>
+      <div class="loc-code">9015</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Piscine</div>
+      <div class="loc-code">3827</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+    <div class="label-card">
+      <div class="loc-name">Carrieres</div>
+      <div class="loc-code">5194</div>
+      <div class="loc-note">Entrez ce code dans l'appli</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================================================================
+     PAGES 5-14 : FICHES EQUIPES AVEC QR CODES
+     =================================================================== -->
+<script>
+const BASE_URL='https://thierrybidault.github.io/moulin-du-roy/geocaching.html';
+const TEAMS=[
+  {id:1,name:"Les Mustangs",emoji:"🐎",color:"#e74c3c",route:["Garage a velo","Etang","Chalet Connemara","Le Pre","Carrieres"],fragment:{word:"LE",pos:1}},
+  {id:2,name:"Les Appaloosas",emoji:"🐴",color:"#e67e22",route:["Bureaux","Poulailler","Chalet Comtois","Piscine","Ecuries"],fragment:{word:"COFFRE",pos:2}},
+  {id:3,name:"Les Frisons",emoji:"🦄",color:"#f1c40f",route:["Salle des fetes","Carrieres","Chalet Fjord","Moulin du Roy","Chalet Merens"],fragment:{word:"EST",pos:3}},
+  {id:4,name:"Les Andalous",emoji:"🏇",color:"#2ecc71",route:["Piscine","Le Pre","Chalet Pottok","Garage a velo","Salle des fetes"],fragment:{word:"CACHE",pos:4}},
+  {id:5,name:"Les Percherons",emoji:"🐎",color:"#1abc9c",route:["Moulin du Roy","Chalet Frisson","Carrieres","Poulailler","Piscine"],fragment:{word:"SOUS",pos:5}},
+  {id:6,name:"Les Camarguais",emoji:"🐴",color:"#3498db",route:["Etang","Salle des fetes","Chalet Landais","Ecuries","Le Pre"],fragment:{word:"LA",pos:6}},
+  {id:7,name:"Les Pur-Sang",emoji:"🦄",color:"#9b59b6",route:["Poulailler","Chalet Connemara","Garage a velo","Piscine","Moulin du Roy"],fragment:{word:"GRANDE",pos:7}},
+  {id:8,name:"Les Quarter H.",emoji:"🏇",color:"#e84393",route:["Le Pre","Ecuries","Chalet Merens","Salle des fetes","Etang"],fragment:{word:"PIERRE",pos:8}},
+  {id:9,name:"Les Lipizzans",emoji:"🐎",color:"#00cec9",route:["Carrieres","Moulin du Roy","Poulailler","Chalet Comtois","Garage a velo"],fragment:{word:"DU",pos:9}},
+  {id:10,name:"Les Lusitaniens",emoji:"🐴",color:"#fd79a8",route:["Chalet Connemara","Piscine","Chalet Frisson","Etang","Salle des fetes"],fragment:{word:"MOULIN",pos:10}}
+];
+
+document.addEventListener('DOMContentLoaded',function(){
+  const container=document.getElementById('team-pages');
+  TEAMS.forEach(t=>{
+    const url=BASE_URL+'?team='+t.id;
+    const qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data='+encodeURIComponent(url);
+
+    let steps='';
+    t.route.forEach((loc,i)=>{
+      steps+=`<div class="step"><span class="step-num">${i+1}</span> ${loc}</div>`;
+    });
+
+    container.innerHTML+=`
+    <div class="page">
+      <div class="team-sheet" style="border-color:${t.color}">
+        <div class="team-header" style="border-color:${t.color}">
+          <div>
+            <div class="team-name" style="color:${t.color}">${t.name}</div>
+            <div style="color:#666;font-size:10pt">Equipe ${t.id} sur 10</div>
+          </div>
+          <div class="team-emoji">${t.emoji}</div>
+        </div>
+
+        <div class="team-qr">
+          <div style="font-weight:600;margin-bottom:8px">Scannez ce QR code pour commencer :</div>
+          <img src="${qrUrl}" alt="QR Code Equipe ${t.id}" width="180" height="180">
+          <div style="font-size:8pt;color:#999;margin-top:4px;word-break:break-all">${url}</div>
+        </div>
+
+        <h3>Votre parcours (5 etapes) :</h3>
+        <div class="team-route">${steps}</div>
+
+        <div class="team-instructions">
+          <strong>Comment jouer :</strong><br>
+          1. Scannez le QR code avec l'appareil photo du telephone<br>
+          2. L'appli vous guide par GPS vers chaque etape<br>
+          3. Trouvez la cachette, lisez le code a 4 chiffres<br>
+          4. Entrez le code dans l'appli pour passer a la suite<br>
+          5. A la fin, notez votre MOT SECRET et revenez a la Salle des Fetes !
+        </div>
+      </div>
+    </div>`;
+  });
+});
+</script>
+<div id="team-pages"></div>
+
+<!-- ===================================================================
+     DERNIERE PAGE : FEUILLE DE SCORE FINALE
+     =================================================================== -->
+<div class="page">
+  <h2>Assemblage final - Feuille de score</h2>
+  <p style="margin-bottom:16px;color:#666">A remplir quand toutes les equipes sont revenues. Chaque equipe annonce son mot et son numero.</p>
+
+  <table>
+    <thead>
+      <tr><th>Position</th><th>Equipe</th><th>Mot trouve</th><th>Temps</th></tr>
+    </thead>
+    <tbody>
+      <tr><td style="text-align:center;font-weight:700">1</td><td>Les Mustangs</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">2</td><td>Les Appaloosas</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">3</td><td>Les Frisons</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">4</td><td>Les Andalous</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">5</td><td>Les Percherons</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">6</td><td>Les Camarguais</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">7</td><td>Les Pur-Sang</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">8</td><td>Les Quarter H.</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">9</td><td>Les Lipizzans</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+      <tr><td style="text-align:center;font-weight:700">10</td><td>Les Lusitaniens</td><td style="font-size:14pt;font-weight:700"></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:20px;padding:16px;border:3px solid #e94560;border-radius:10px;text-align:center">
+    <div style="font-size:10pt;color:#666;margin-bottom:8px">La phrase secrete complete :</div>
+    <div style="font-size:16pt;letter-spacing:2px;line-height:1.6">
+      _____ &nbsp; _____ &nbsp; _____ &nbsp; _____ &nbsp; _____ &nbsp; _____ &nbsp; _____ &nbsp; _____ &nbsp; _____ &nbsp; _____
+    </div>
+    <div style="font-size:8pt;color:#999;margin-top:8px">mot 1 &nbsp;&nbsp; mot 2 &nbsp;&nbsp; mot 3 &nbsp;&nbsp; mot 4 &nbsp;&nbsp; mot 5 &nbsp;&nbsp; mot 6 &nbsp;&nbsp; mot 7 &nbsp;&nbsp; mot 8 &nbsp;&nbsp; mot 9 &nbsp;&nbsp; mot 10</div>
+  </div>
+
+  <div style="margin-top:20px">
+    <h3>Classement par temps</h3>
+    <table>
+      <thead><tr><th>Place</th><th>Equipe</th><th>Temps</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:center;font-size:16pt">🥇</td><td></td><td></td></tr>
+        <tr><td style="text-align:center;font-size:16pt">🥈</td><td></td><td></td></tr>
+        <tr><td style="text-align:center;font-size:16pt">🥉</td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>

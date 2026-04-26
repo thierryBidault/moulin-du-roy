@@ -487,9 +487,25 @@ function renderAdmin(){
 }
 
 // ================================================================
-//  INIT
+//  INIT — support ?team=N dans l'URL (1 a 10)
 // ================================================================
-showScreen('splash');
+(function(){
+  const params=new URLSearchParams(window.location.search);
+  const tParam=params.get('team');
+  if(tParam){
+    const tId=parseInt(tParam,10);
+    const idx=TEAMS.findIndex(t=>t.id===tId);
+    if(idx>=0){
+      state.teamIdx=idx;
+      state.step=0;
+      state.startTime=Date.now();
+      showScreen('navigation');
+      startGPS();initCompass();
+      return;
+    }
+  }
+  showScreen('splash');
+})();
 // Keep demo ticking
 setInterval(()=>{if(state.demo&&document.querySelector('#navigation.active'))demoTick();},2000);
 </script>

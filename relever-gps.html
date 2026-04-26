@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Relever les GPS - Moulin du Roy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a2e;color:#eee;padding:16px;min-height:100vh}
+h1{font-size:1.3em;text-align:center;margin-bottom:4px}
+.sub{text-align:center;color:#999;font-size:.85em;margin-bottom:16px}
+.my-pos{background:#16213e;border-radius:10px;padding:14px;text-align:center;margin-bottom:16px;position:sticky;top:0;z-index:10}
+.my-pos .coords{font-family:monospace;font-size:1.3em;font-weight:700;color:#2ecc71;margin:6px 0}
+.my-pos .acc{font-size:.8em;color:#999}
+.loc{background:#16213e;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.loc .name{font-weight:600;font-size:.95em}
+.loc .saved{font-family:monospace;font-size:.8em;color:#2ecc71;margin-top:2px}
+.loc .empty{font-size:.8em;color:#666;margin-top:2px}
+.btn{background:#e94560;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:.85em;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:active{transform:scale(.96)}
+.btn.done{background:#2ecc71}
+.btn.sec{background:#0f3460}
+.export-box{background:#0a0a1a;border:1px solid #333;border-radius:8px;padding:12px;margin-top:16px;display:none}
+.export-box textarea{width:100%;height:200px;background:#111;color:#2ecc71;border:1px solid #333;border-radius:6px;padding:8px;font-family:monospace;font-size:.85em;resize:vertical}
+.export-box .info{color:#999;font-size:.8em;margin-top:8px;line-height:1.4}
+.count{text-align:center;color:#999;font-size:.85em;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<h1>Relever les coordonnees GPS</h1>
+<div class="sub">Deplace-toi sur chaque lieu et appuie sur "Enregistrer"</div>
+
+<div class="my-pos">
+  <div style="font-size:.85em;color:#999">Ma position actuelle :</div>
+  <div class="coords" id="my-coords">Acquisition GPS...</div>
+  <div class="acc" id="my-acc"></div>
+</div>
+
+<div class="count" id="count">0 / 17 lieux enregistres</div>
+
+<div id="loc-list"></div>
+
+<div style="text-align:center;margin-top:16px">
+  <button class="btn sec" onclick="toggleExport()" id="export-btn">Afficher le resume a copier</button>
+</div>
+
+<div class="export-box" id="export-box">
+  <textarea id="export-text" readonly></textarea>
+  <button class="btn" onclick="copyExport()" style="margin-top:8px;width:100%">Copier dans le presse-papier</button>
+  <div class="info">Copiez ce texte et collez-le dans la conversation avec Claude pour mettre a jour les coordonnees du jeu.</div>
+</div>
+
+<script>
+const LIEUX = [
+  {key:"garage_velo",  name:"Garage a velo"},
+  {key:"bureaux",      name:"Bureaux"},
+  {key:"etang",        name:"Etang"},
+  {key:"moulin",       name:"Moulin du Roy"},
+  {key:"salle_fetes",  name:"Salle des fetes"},
+  {key:"ecuries",      name:"Ecuries"},
+  {key:"poulailler",   name:"Poulailler"},
+  {key:"comtois",      name:"Chalet Comtois"},
+  {key:"connemara",    name:"Chalet Connemara"},
+  {key:"fjord",        name:"Chalet Fjord"},
+  {key:"frisson",      name:"Chalet Frisson"},
+  {key:"merens",       name:"Chalet Merens"},
+  {key:"pottok",       name:"Chalet Pottok"},
+  {key:"landais",      name:"Chalet Landais"},
+  {key:"pre",          name:"Le Pre"},
+  {key:"piscine",      name:"Piscine"},
+  {key:"carrieres",    name:"Carrieres"}
+];
+
+// Load saved data
+let saved = JSON.parse(localStorage.getItem('gps_releves')||'{}');
+let currentPos = null;
+
+// GPS
+if(navigator.geolocation){
+  navigator.geolocation.watchPosition(
+    p=>{
+      currentPos={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};
+      document.getElementById('my-coords').textContent=p.coords.latitude.toFixed(6)+', '+p.coords.longitude.toFixed(6);
+      document.getElementById('my-acc').textContent='Precision : ±'+Math.round(p.coords.accuracy)+' m';
+    },
+    e=>{document.getElementById('my-coords').textContent='Erreur GPS - activez la localisation';},
+    {enableHighAccuracy:true,maximumAge:2000,timeout:10000}
+  );
+} else {
+  document.getElementById('my-coords').textContent='GPS non disponible';
+}
+
+// Render list
+function render(){
+  let html='';
+  let count=0;
+  LIEUX.forEach(l=>{
+    const s=saved[l.key];
+    if(s) count++;
+    html+=`<div class="loc">
+      <div>
+        <div class="name">${l.name}</div>
+        ${s?`<div class="saved">${s.lat}, ${s.lng}</div>`:`<div class="empty">Non enregistre</div>`}
+      </div>
+      <button class="btn ${s?'done':''}" onclick="enregistrer('${l.key}')">${s?'Refaire':'Enregistrer'}</button>
+    </div>`;
+  });
+  document.getElementById('loc-list').innerHTML=html;
+  document.getElementById('count').textContent=count+' / 17 lieux enregistres';
+  updateExport();
+}
+
+function enregistrer(key){
+  if(!currentPos){alert('Position GPS non disponible. Attends quelques secondes.');return;}
+  if(currentPos.acc>20){
+    if(!confirm('Precision GPS : ±'+Math.round(currentPos.acc)+'m (un peu faible). Enregistrer quand meme ?')) return;
+  }
+  saved[key]={lat:currentPos.lat.toFixed(6),lng:currentPos.lng.toFixed(6)};
+  localStorage.setItem('gps_releves',JSON.stringify(saved));
+  render();
+}
+
+function updateExport(){
+  let text='Voici les coordonnees GPS des 17 lieux :\n\n';
+  LIEUX.forEach(l=>{
+    const s=saved[l.key];
+    text+=l.key+': '+(s?s.lat+', '+s.lng:'(non releve)')+'\n';
+  });
+  document.getElementById('export-text').value=text;
+}
+
+function toggleExport(){
+  const box=document.getElementById('export-box');
+  box.style.display=box.style.display==='none'||!box.style.display?'block':'none';
+}
+
+function copyExport(){
+  const ta=document.getElementById('export-text');
+  ta.select();
+  ta.setSelectionRange(0,99999);
+  navigator.clipboard.writeText(ta.value).then(()=>alert('Copie !')).catch(()=>alert('Appuie longtemps sur le texte pour copier manuellement.'));
+}
+
+render();
+</script>
+</body>
+</html>
