@@ -289,11 +289,6 @@ document.addEventListener('DOMContentLoaded',function(){
     const url=BASE_URL+'?team='+t.id;
     const qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data='+encodeURIComponent(url);
 
-    let steps='';
-    t.route.forEach((loc,i)=>{
-      steps+=`<div class="step"><span class="step-num">${i+1}</span> ${loc}</div>`;
-    });
-
     container.innerHTML+=`
     <div class="page">
       <div class="team-sheet" style="border-color:${t.color}">
@@ -311,8 +306,10 @@ document.addEventListener('DOMContentLoaded',function(){
           <div style="font-size:8pt;color:#999;margin-top:4px;word-break:break-all">${url}</div>
         </div>
 
-        <h3>Votre parcours (5 etapes) :</h3>
-        <div class="team-route">${steps}</div>
+        <div style="background:#f5f5f5;border-radius:8px;padding:16px;margin:16px 0;text-align:center">
+          <div style="font-size:14pt;font-weight:700;color:${t.color};margin-bottom:4px">5 etapes a decouvrir</div>
+          <div style="color:#666;font-size:10pt">Votre telephone vous guidera vers chaque lieu secret !</div>
+        </div>
 
         <div class="team-instructions">
           <strong>Comment jouer :</strong><br>
