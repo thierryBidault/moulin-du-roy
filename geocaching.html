@@ -142,29 +142,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 // ================================================================
 
 const LOCATIONS = {
-  garage_velo:  { name:"Garage a velo",     lat:46.50020, lng:-0.50150, code:"4271", hint:"L'abri des deux-roues, pres de l'entree du domaine" },
-  bureaux:      { name:"Bureaux",           lat:46.50060, lng:-0.50120, code:"8634", hint:"La ou les papiers s'empilent et les stylos travaillent" },
-  etang:        { name:"Etang",             lat:46.50110, lng:-0.50100, code:"3159", hint:"Surface calme ou se refletent les arbres" },
-  moulin:       { name:"Moulin du Roy",     lat:46.50055, lng:-0.50075, code:"7402", hint:"Le batiment qui donne son nom au domaine" },
-  salle_fetes:  { name:"Salle des fetes",   lat:46.50010, lng:-0.50060, code:"5916", hint:"On y danse et on y chante les grands soirs" },
-  ecuries:      { name:"Ecuries",           lat:46.50040, lng:-0.50030, code:"6283", hint:"Au centre du rond-point, les chevaux y reposent" },
-  poulailler:   { name:"Poulailler",        lat:46.50075, lng:-0.50025, code:"1947", hint:"Cot cot cot ! Le royaume des gallinaces" },
-  comtois:      { name:"Chalet Comtois",    lat:46.50115, lng:-0.49990, code:"5038", hint:"Au coeur du Poney Village, sous le grand toit pointu" },
-  connemara:    { name:"Chalet Connemara",  lat:46.50125, lng:-0.49950, code:"9264", hint:"Le plus grand batiment du Poney Village" },
-  fjord:        { name:"Chalet Fjord",      lat:46.50100, lng:-0.50015, code:"3751", hint:"Un chalet qui porte le nom d'un bras de mer nordique" },
-  frisson:      { name:"Chalet Frisson",    lat:46.50095, lng:-0.50005, code:"7149", hint:"Son nom vous fera fremir... de plaisir !" },
-  merens:       { name:"Chalet Merens",     lat:46.50135, lng:-0.50010, code:"2586", hint:"Ce chalet porte le nom d'un cheval noir des Pyrenees" },
-  pottok:       { name:"Chalet Pottok",     lat:46.50135, lng:-0.49980, code:"4823", hint:"Petit cheval basque, petit chalet" },
-  landais:      { name:"Chalet Landais",    lat:46.50130, lng:-0.49995, code:"6371", hint:"Des Landes vient ce petit cheval" },
-  pre:          { name:"Le Pre",            lat:46.50155, lng:-0.49920, code:"9015", hint:"Le grand espace vert tout en haut du domaine" },
-  piscine:      { name:"Piscine",           lat:46.50105, lng:-0.49910, code:"3827", hint:"On y plonge quand le soleil brille" },
-  carrieres:    { name:"Carrieres",         lat:46.50025, lng:-0.49890, code:"5194", hint:"Les chevaux galopent en cercle, le tracteur veille" }
+  garage_velo:  { name:"Garage a velo",      lat:46.50020, lng:-0.50150, code:"4271", hint:"L'abri des deux-roues, pres de l'entree du domaine" },
+  bureaux:      { name:"Bureaux",            lat:46.50060, lng:-0.50120, code:"8634", hint:"La ou les papiers s'empilent et les stylos travaillent" },
+  etang:        { name:"Etang - Digue",      lat:46.50110, lng:-0.50100, code:"3159", hint:"Du cote de la digue, la ou l'eau est retenue" },
+  etang_nord:   { name:"Etang - Rive Nord",  lat:46.50146, lng:-0.50100, code:"2847", hint:"Rive nord de l'etang, la ou les arbres se penchent vers l'eau" },
+  etang_sud:    { name:"Etang - Rive Sud",   lat:46.50074, lng:-0.50100, code:"6135", hint:"Rive sud de l'etang, en contrebas pres de l'arrivee d'eau" },
+  etang_ouest:  { name:"Etang - Rive Ouest", lat:46.50110, lng:-0.50150, code:"8472", hint:"Rive ouest de l'etang, face au soleil couchant" },
+  moulin:       { name:"Moulin du Roy",      lat:46.50055, lng:-0.50075, code:"7402", hint:"Le batiment qui donne son nom au domaine" },
+  salle_fetes:  { name:"Salle des fetes",    lat:46.50010, lng:-0.50060, code:"5916", hint:"On y danse et on y chante les grands soirs" },
+  ecuries:      { name:"Ecuries",            lat:46.50040, lng:-0.50030, code:"6283", hint:"Au centre du rond-point, les chevaux y reposent" },
+  poulailler:   { name:"Poulailler",         lat:46.50075, lng:-0.50025, code:"1947", hint:"Cot cot cot ! Le royaume des gallinaces" },
+  comtois:      { name:"Chalet Comtois",     lat:46.50115, lng:-0.49990, code:"5038", hint:"Au coeur du Poney Village, sous le grand toit pointu" },
+  connemara:    { name:"Chalet Connemara",   lat:46.50125, lng:-0.49950, code:"9264", hint:"Le plus grand batiment du Poney Village" },
+  fjord:        { name:"Chalet Fjord",       lat:46.50100, lng:-0.50015, code:"3751", hint:"Un chalet qui porte le nom d'un bras de mer nordique" },
+  frisson:      { name:"Chalet Frisson",     lat:46.50095, lng:-0.50005, code:"7149", hint:"Son nom vous fera fremir... de plaisir !" },
+  landais:      { name:"Chalet Landais",     lat:46.50130, lng:-0.49995, code:"6371", hint:"Des Landes vient ce petit cheval" },
+  piscine:      { name:"Piscine",            lat:46.50105, lng:-0.49910, code:"3827", hint:"On y plonge quand le soleil brille" },
+  carrieres:    { name:"Carrieres",          lat:46.50025, lng:-0.49890, code:"5194", hint:"Les chevaux galopent en cercle, le tracteur veille" }
 };
 
 const CHALLENGES = {
   garage_velo:  "Chaque membre de l'equipe doit nommer une marque de velo differente !",
   bureaux:      "Comptez le nombre de fenetres des bureaux et notez-le !",
-  etang:        "Photo d'equipe : tout le monde imite le canard !",
+  etang:        "Photo d'equipe : tout le monde imite la grenouille au bord de l'eau !",
+  etang_nord:   "Trouvez un animal ou insecte pres de l'eau et decrivez-le a toute l'equipe !",
+  etang_sud:    "Chaque membre ramasse un caillou et fait des ricochets - qui en fait le plus ?",
+  etang_ouest:  "Photo d'equipe : tout le monde pose comme des pecheurs patients !",
   moulin:       "Trouvez un detail architectural sur la facade du Moulin et decrivez-le.",
   salle_fetes:  "Toute l'equipe doit chanter un refrain en choeur !",
   ecuries:      "Combien de boxes comptez-vous dans les ecuries ?",
@@ -173,25 +176,22 @@ const CHALLENGES = {
   connemara:    "Dans quel pays se trouve le Connemara ? (Irlande !)",
   fjord:        "De quel pays vient le Fjord ? (Norvege !)",
   frisson:      "Racontez une mini histoire effrayante en 30 secondes !",
-  merens:       "De quelle couleur est le cheval Merens ? (Noir !)",
-  pottok:       "Dans quelles montagnes vit le Pottok ? (Pyrenees !)",
   landais:      "Quel est le numero du departement des Landes ? (40 !)",
-  pre:          "Defi sportif : sprint en equipe jusqu'a la cloture et retour !",
   piscine:      "Un membre mime un sport aquatique, les autres devinent !",
   carrieres:    "Chaque membre mime un animal de la ferme different !"
 };
 
 const TEAMS = [
-  { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["garage_velo","etang","connemara","pre","carrieres"],       fragment:{word:"LE",      pos:1} },
-  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","comtois","piscine","ecuries"],       fragment:{word:"COFFRE",  pos:2} },
-  { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","fjord","moulin","merens"],        fragment:{word:"EST",     pos:3} },
-  { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","pre","pottok","garage_velo","salle_fetes"],       fragment:{word:"CACHE",   pos:4} },
-  { id:5,  name:"Les Percherons",  emoji:"🐎", color:"#1abc9c", route:["moulin","frisson","carrieres","poulailler","piscine"],      fragment:{word:"SOUS",    pos:5} },
-  { id:6,  name:"Les Camarguais",  emoji:"🐴", color:"#3498db", route:["etang","salle_fetes","landais","ecuries","pre"],            fragment:{word:"LA",      pos:6} },
-  { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","garage_velo","piscine","moulin"],  fragment:{word:"GRANDE",  pos:7} },
-  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["pre","ecuries","merens","salle_fetes","etang"],             fragment:{word:"PIERRE",  pos:8} },
-  { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","comtois","garage_velo"],  fragment:{word:"DU",      pos:9} },
-  { id:10, name:"Les Lusitaniens", emoji:"🐴", color:"#fd79a8", route:["connemara","piscine","frisson","etang","salle_fetes"],      fragment:{word:"MOULIN",  pos:10} }
+  { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["garage_velo","etang","connemara","frisson","carrieres"],        fragment:{word:"LE",      pos:1} },
+  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","comtois","piscine","etang_nord"],         fragment:{word:"COFFRE",  pos:2} },
+  { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","fjord","moulin","etang_sud"],          fragment:{word:"EST",     pos:3} },
+  { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","etang_ouest","landais","garage_velo","salle_fetes"],   fragment:{word:"CACHE",   pos:4} },
+  { id:5,  name:"Les Percherons",  emoji:"🐎", color:"#1abc9c", route:["moulin","frisson","carrieres","poulailler","etang_nord"],        fragment:{word:"SOUS",    pos:5} },
+  { id:6,  name:"Les Camarguais",  emoji:"🐴", color:"#3498db", route:["etang","salle_fetes","landais","ecuries","connemara"],           fragment:{word:"LA",      pos:6} },
+  { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","garage_velo","piscine","etang_sud"],    fragment:{word:"GRANDE",  pos:7} },
+  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["etang_ouest","ecuries","fjord","salle_fetes","bureaux"],         fragment:{word:"PIERRE",  pos:8} },
+  { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","comtois","etang"],             fragment:{word:"DU",      pos:9} },
+  { id:10, name:"Les Lusitaniens", emoji:"🐴", color:"#fd79a8", route:["connemara","piscine","frisson","etang_sud","salle_fetes"],       fragment:{word:"MOULIN",  pos:10} }
 ];
 
 // Phrase finale : "LE COFFRE EST CACHE SOUS LA GRANDE PIERRE DU MOULIN"
