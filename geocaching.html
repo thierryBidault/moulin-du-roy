@@ -142,8 +142,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 // ================================================================
 
 const LOCATIONS = {
-  garage_velo:  { name:"Garage a velo",      lat:46.601940, lng:3.795279, code:"4271", hint:"Je protege ceux qui n'ont ni moteur ni essence, juste deux roues et un guidon. Cherchez pres de la ou tout commence." },
-  bureaux:      { name:"Bureaux",            lat:46.601959, lng:3.795724, code:"8634", hint:"On y range des dossiers, pas du foin. Les stylos y remplacent les cravaches." },
+  entree:       { name:"Entree du site",     lat:46.601940, lng:3.795279, code:"4271", hint:"Tout commence ici. Franchissez le seuil du domaine et ouvrez grand les yeux." },
+  atelier:      { name:"Atelier",            lat:46.601959, lng:3.795724, code:"8634", hint:"Ici on bricole, on repare, on fabrique. L'odeur du bois et du metal y flotte." },
   etang:        { name:"Etang - Digue",      lat:46.603577, lng:3.798459, code:"3159", hint:"Un miroir sans cadre que personne n'a poli. Un mur de pierre retient ses eaux." },
   etang_nord:   { name:"Etang - Rive Nord",  lat:46.603391, lng:3.798814, code:"2586", hint:"Au septentrion du grand miroir, les branches se penchent pour boire." },
   etang_sud:    { name:"Etang - Rive Sud",   lat:46.603087, lng:3.798314, code:"4823", hint:"Au midi du grand miroir, l'eau murmure en arrivant avant de se calmer." },
@@ -155,15 +155,15 @@ const LOCATIONS = {
   mini_ferme_chevres: { name:"Mini Ferme - Chevres", lat:46.601676, lng:3.794639, code:"5038", hint:"Pupilles rectangulaires et barbichette, les unes sont minuscules, les autres ont la laine la plus douce du monde." },
   connemara:    { name:"Chalet Connemara",   lat:46.601874, lng:3.797908, code:"9264", hint:"Le geant du village porte le nom d'une terre sauvage battue par le vent, sur une ile verte." },
   mini_ferme_bebes: { name:"Mini Ferme - Bebes chevres", lat:46.601694, lng:3.794972, code:"3751", hint:"Hauts comme trois pommes, ils belent d'une voix fluette et tiennent a peine sur leurs pattes." },
-  frisson:      { name:"Chalet Frisson",     lat:46.602424, lng:3.798015, code:"7149", hint:"Mon nom est une sensation... celle d'un courant d'air glace le long de votre echine." },
-  landais:      { name:"Chalet Landais",     lat:46.602084, lng:3.798260, code:"6371", hint:"Mon nom evoque les pins, le sable et l'ocean du sud-ouest." },
+  frisson:      { name:"Chalet Frisson",     lat:46.602424, lng:3.798015, code:"7149", hint:"Autrefois on y transpirait de chaleur, aujourd'hui on y dort. Mon nom evoque le contraire de la sueur chaude..." },
+  landais:      { name:"Chalet Landais",     lat:46.602084, lng:3.798260, code:"6371", hint:"Maison sur roues qui ne voyage plus, elle porte le nom d'un pays de pins et de sable." },
   piscine:      { name:"Piscine",            lat:46.601538, lng:3.797313, code:"3827", hint:"Rectangle secret cache par la vegetation, c'est le lieu le plus convoite du domaine quand la canicule frappe." },
   carrieres:    { name:"Carrieres",          lat:46.601401, lng:3.796181, code:"5194", hint:"Un anneau de sable, des traces de sabots en cercle, et un gardien mecanique jaune qui sommeille." }
 };
 
 const CHALLENGES = {
-  garage_velo:  "Chaque membre de l'equipe doit nommer une marque de velo differente !",
-  bureaux:      "Comptez le nombre de fenetres des bureaux et notez-le !",
+  entree:       "Chaque membre de l'equipe doit citer un mot de bienvenue dans une langue differente !",
+  atelier:      "Trouvez l'outil le plus insolite de l'atelier et decrivez-le !",
   etang:        "Photo d'equipe : tout le monde imite la grenouille au bord de l'eau !",
   etang_nord:   "Trouvez un animal ou insecte pres de l'eau et decrivez-le a toute l'equipe !",
   etang_sud:    "Chaque membre ramasse un caillou et fait des ricochets - qui en fait le plus ?",
@@ -175,21 +175,21 @@ const CHALLENGES = {
   mini_ferme_chevres: "Combien de chevres angora comptez-vous ? Et quelle difference avec les mini chevres ?",
   connemara:    "Dans quel pays se trouve le Connemara ? (Irlande !)",
   mini_ferme_bebes: "Trouvez le plus petit bebe chevre et prenez une photo d'equipe avec lui !",
-  frisson:      "Racontez une mini histoire effrayante en 30 secondes !",
-  landais:      "Quel est le numero du departement des Landes ? (40 !)",
+  frisson:      "A quelle temperature monte un sauna traditionnel ? (Entre 70 et 100 degres !)",
+  landais:      "Citez 3 choses qu'on peut faire dans les Landes ! (Surf, velo, rando, foie gras...)",
   piscine:      "Un membre mime un sport aquatique, les autres devinent !",
   carrieres:    "Chaque membre mime un animal de la ferme different !"
 };
 
 const TEAMS = [
-  { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["garage_velo","etang","connemara","frisson","carrieres"],        fragment:{word:"CHERCHEZ",  pos:1} },
-  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","mini_ferme_chevres","piscine","etang_nord"],         fragment:{word:"SOUS",     pos:2} },
+  { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["entree","etang","connemara","frisson","carrieres"],        fragment:{word:"CHERCHEZ",  pos:1} },
+  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["atelier","poulailler","mini_ferme_chevres","piscine","etang_nord"],         fragment:{word:"SOUS",     pos:2} },
   { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","mini_ferme_bebes","moulin","etang_sud"],          fragment:{word:"LA",       pos:3} },
-  { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","etang_ouest","landais","garage_velo","salle_fetes"],   fragment:{word:"GROSSE",   pos:4} },
+  { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","etang_ouest","landais","entree","salle_fetes"],   fragment:{word:"GROSSE",   pos:4} },
   { id:5,  name:"Les Percherons",  emoji:"🐎", color:"#1abc9c", route:["moulin","frisson","carrieres","poulailler","etang_nord"],        fragment:{word:"PIERRE",   pos:5} },
   { id:6,  name:"Les Camarguais",  emoji:"🐴", color:"#3498db", route:["etang","salle_fetes","landais","ecuries","connemara"],           fragment:{word:"EN",       pos:6} },
-  { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","garage_velo","piscine","etang_sud"],    fragment:{word:"FORME",    pos:7} },
-  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["etang_ouest","ecuries","mini_ferme_bebes","salle_fetes","bureaux"],         fragment:{word:"DE",       pos:8} },
+  { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","entree","piscine","etang_sud"],    fragment:{word:"FORME",    pos:7} },
+  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["etang_ouest","ecuries","mini_ferme_bebes","salle_fetes","atelier"],         fragment:{word:"DE",       pos:8} },
   { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","mini_ferme_chevres","etang"],             fragment:{word:"MENHIR",   pos:9} },
   { id:10, name:"Les Lusitaniens", emoji:"🐴", color:"#fd79a8", route:["connemara","piscine","frisson","etang_sud","salle_fetes"],       fragment:{word:"!",        pos:10} }
 ];
