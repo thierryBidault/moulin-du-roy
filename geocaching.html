@@ -182,19 +182,19 @@ const CHALLENGES = {
 };
 
 const TEAMS = [
-  { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["garage_velo","etang","connemara","frisson","carrieres"],        fragment:{word:"LE",      pos:1} },
-  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","mini_ferme_chevres","piscine","etang_nord"],         fragment:{word:"COFFRE",  pos:2} },
-  { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","mini_ferme_bebes","moulin","etang_sud"],          fragment:{word:"EST",     pos:3} },
-  { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","etang_ouest","landais","garage_velo","salle_fetes"],   fragment:{word:"CACHE",   pos:4} },
-  { id:5,  name:"Les Percherons",  emoji:"🐎", color:"#1abc9c", route:["moulin","frisson","carrieres","poulailler","etang_nord"],        fragment:{word:"SOUS",    pos:5} },
-  { id:6,  name:"Les Camarguais",  emoji:"🐴", color:"#3498db", route:["etang","salle_fetes","landais","ecuries","connemara"],           fragment:{word:"LA",      pos:6} },
-  { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","garage_velo","piscine","etang_sud"],    fragment:{word:"GRANDE",  pos:7} },
-  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["etang_ouest","ecuries","mini_ferme_bebes","salle_fetes","bureaux"],         fragment:{word:"PIERRE",  pos:8} },
-  { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","mini_ferme_chevres","etang"],             fragment:{word:"DU",      pos:9} },
-  { id:10, name:"Les Lusitaniens", emoji:"🐴", color:"#fd79a8", route:["connemara","piscine","frisson","etang_sud","salle_fetes"],       fragment:{word:"MOULIN",  pos:10} }
+  { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["garage_velo","etang","connemara","frisson","carrieres"],        fragment:{word:"CHERCHEZ",  pos:1} },
+  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","mini_ferme_chevres","piscine","etang_nord"],         fragment:{word:"SOUS",     pos:2} },
+  { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","mini_ferme_bebes","moulin","etang_sud"],          fragment:{word:"LA",       pos:3} },
+  { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","etang_ouest","landais","garage_velo","salle_fetes"],   fragment:{word:"GROSSE",   pos:4} },
+  { id:5,  name:"Les Percherons",  emoji:"🐎", color:"#1abc9c", route:["moulin","frisson","carrieres","poulailler","etang_nord"],        fragment:{word:"PIERRE",   pos:5} },
+  { id:6,  name:"Les Camarguais",  emoji:"🐴", color:"#3498db", route:["etang","salle_fetes","landais","ecuries","connemara"],           fragment:{word:"EN",       pos:6} },
+  { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","garage_velo","piscine","etang_sud"],    fragment:{word:"FORME",    pos:7} },
+  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["etang_ouest","ecuries","mini_ferme_bebes","salle_fetes","bureaux"],         fragment:{word:"DE",       pos:8} },
+  { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","mini_ferme_chevres","etang"],             fragment:{word:"MENHIR",   pos:9} },
+  { id:10, name:"Les Lusitaniens", emoji:"🐴", color:"#fd79a8", route:["connemara","piscine","frisson","etang_sud","salle_fetes"],       fragment:{word:"!",        pos:10} }
 ];
 
-// Phrase finale : "LE COFFRE EST CACHE SOUS LA GRANDE PIERRE DU MOULIN"
+// Phrase finale : "CHERCHEZ SOUS LA GROSSE PIERRE EN FORME DE MENHIR !"
 
 // ================================================================
 //  ETAT
@@ -461,7 +461,7 @@ function renderFinal(){
 function renderAdmin(){
   let h='<h2>Mode Organisateur</h2>';
   h+='<div style="background:var(--bg2);border-radius:10px;padding:14px;margin-bottom:16px;font-size:.9em;line-height:1.5">';
-  h+='<strong>Phrase secrete :</strong><br>"LE COFFRE EST CACHE SOUS LA GRANDE PIERRE DU MOULIN"<br><br>';
+  h+='<strong>Phrase secrete :</strong><br>"CHERCHEZ SOUS LA GROSSE PIERRE EN FORME DE MENHIR !"<br><br>';
   h+='<strong>Preparation :</strong> A chaque lieu, cachez un petit contenant (tupperware, boite, sachet zip) avec a l\'interieur un papier plastifie indiquant le <strong>code a 4 chiffres</strong> du lieu.<br><br>';
   h+='<strong>Important :</strong> Chaque lieu a UN SEUL code, quel que soit l\'equipe qui le visite.</div>';
 
