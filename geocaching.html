@@ -337,6 +337,7 @@ function renderNav(){
     <div class="code-err" id="code-err"></div>
     <button class="btn" onclick="validateCode()" style="margin:0 auto">Valider</button>
   </div>`;
+  h+=`<div style="margin-top:20px"><button class="btn sec" style="font-size:.8em;padding:10px 20px;margin:0 auto" onclick="resetTeam()">Recommencer</button></div>`;
   $('navigation').innerHTML=h;
 
   // Auto-advance on digit input
@@ -484,6 +485,15 @@ function renderAdmin(){
 
   h+='<div class="adm-back"><button class="btn sec" onclick="showScreen(\'splash\')">Retour</button></div>';
   $('admin').innerHTML=h;
+}
+
+function resetTeam(){
+  if(!confirm('Recommencer depuis le debut ?')) return;
+  state.step=0;
+  state.startTime=Date.now();
+  stopGPS();
+  showScreen('navigation');
+  startGPS();initCompass();
 }
 
 // ================================================================
