@@ -152,9 +152,9 @@ const LOCATIONS = {
   salle_fetes:  { name:"Salle des fetes",    lat:46.50010, lng:-0.50060, code:"5916", hint:"On y danse et on y chante les grands soirs" },
   ecuries:      { name:"Ecuries",            lat:46.50040, lng:-0.50030, code:"6283", hint:"Au centre du rond-point, les chevaux y reposent" },
   poulailler:   { name:"Poulailler",         lat:46.50075, lng:-0.50025, code:"1947", hint:"Cot cot cot ! Le royaume des gallinaces" },
-  comtois:      { name:"Chalet Comtois",     lat:46.50115, lng:-0.49990, code:"5038", hint:"Au coeur du Poney Village, sous le grand toit pointu" },
+  mini_ferme_chevres: { name:"Mini Ferme - Chevres", lat:46.50115, lng:-0.49990, code:"5038", hint:"La ou les chevres angora et les mini chevres vous observent avec curiosite" },
   connemara:    { name:"Chalet Connemara",   lat:46.50125, lng:-0.49950, code:"9264", hint:"Le plus grand batiment du Poney Village" },
-  fjord:        { name:"Chalet Fjord",       lat:46.50100, lng:-0.50015, code:"3751", hint:"Un chalet qui porte le nom d'un bras de mer nordique" },
+  mini_ferme_bebes: { name:"Mini Ferme - Bebes chevres", lat:46.50100, lng:-0.50015, code:"3751", hint:"Les plus petits habitants de la ferme, tout mignons et tout doux" },
   frisson:      { name:"Chalet Frisson",     lat:46.50095, lng:-0.50005, code:"7149", hint:"Son nom vous fera fremir... de plaisir !" },
   landais:      { name:"Chalet Landais",     lat:46.50130, lng:-0.49995, code:"6371", hint:"Des Landes vient ce petit cheval" },
   piscine:      { name:"Piscine",            lat:46.50105, lng:-0.49910, code:"3827", hint:"On y plonge quand le soleil brille" },
@@ -172,9 +172,9 @@ const CHALLENGES = {
   salle_fetes:  "Toute l'equipe doit chanter un refrain en choeur !",
   ecuries:      "Combien de boxes comptez-vous dans les ecuries ?",
   poulailler:   "Chaque membre fait son meilleur cri de coq !",
-  comtois:      "De quelle region de France vient le cheval Comtois ? (Franche-Comte !)",
+  mini_ferme_chevres: "Combien de chevres angora comptez-vous ? Et quelle difference avec les mini chevres ?",
   connemara:    "Dans quel pays se trouve le Connemara ? (Irlande !)",
-  fjord:        "De quel pays vient le Fjord ? (Norvege !)",
+  mini_ferme_bebes: "Trouvez le plus petit bebe chevre et prenez une photo d'equipe avec lui !",
   frisson:      "Racontez une mini histoire effrayante en 30 secondes !",
   landais:      "Quel est le numero du departement des Landes ? (40 !)",
   piscine:      "Un membre mime un sport aquatique, les autres devinent !",
@@ -183,14 +183,14 @@ const CHALLENGES = {
 
 const TEAMS = [
   { id:1,  name:"Les Mustangs",    emoji:"🐎", color:"#e74c3c", route:["garage_velo","etang","connemara","frisson","carrieres"],        fragment:{word:"LE",      pos:1} },
-  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","comtois","piscine","etang_nord"],         fragment:{word:"COFFRE",  pos:2} },
-  { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","fjord","moulin","etang_sud"],          fragment:{word:"EST",     pos:3} },
+  { id:2,  name:"Les Appaloosas",  emoji:"🐴", color:"#e67e22", route:["bureaux","poulailler","mini_ferme_chevres","piscine","etang_nord"],         fragment:{word:"COFFRE",  pos:2} },
+  { id:3,  name:"Les Frisons",     emoji:"🦄", color:"#f1c40f", route:["salle_fetes","carrieres","mini_ferme_bebes","moulin","etang_sud"],          fragment:{word:"EST",     pos:3} },
   { id:4,  name:"Les Andalous",    emoji:"🏇", color:"#2ecc71", route:["piscine","etang_ouest","landais","garage_velo","salle_fetes"],   fragment:{word:"CACHE",   pos:4} },
   { id:5,  name:"Les Percherons",  emoji:"🐎", color:"#1abc9c", route:["moulin","frisson","carrieres","poulailler","etang_nord"],        fragment:{word:"SOUS",    pos:5} },
   { id:6,  name:"Les Camarguais",  emoji:"🐴", color:"#3498db", route:["etang","salle_fetes","landais","ecuries","connemara"],           fragment:{word:"LA",      pos:6} },
   { id:7,  name:"Les Pur-Sang",    emoji:"🦄", color:"#9b59b6", route:["poulailler","connemara","garage_velo","piscine","etang_sud"],    fragment:{word:"GRANDE",  pos:7} },
-  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["etang_ouest","ecuries","fjord","salle_fetes","bureaux"],         fragment:{word:"PIERRE",  pos:8} },
-  { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","comtois","etang"],             fragment:{word:"DU",      pos:9} },
+  { id:8,  name:"Les Quarter H.",  emoji:"🏇", color:"#e84393", route:["etang_ouest","ecuries","mini_ferme_bebes","salle_fetes","bureaux"],         fragment:{word:"PIERRE",  pos:8} },
+  { id:9,  name:"Les Lipizzans",   emoji:"🐎", color:"#00cec9", route:["carrieres","moulin","poulailler","mini_ferme_chevres","etang"],             fragment:{word:"DU",      pos:9} },
   { id:10, name:"Les Lusitaniens", emoji:"🐴", color:"#fd79a8", route:["connemara","piscine","frisson","etang_sud","salle_fetes"],       fragment:{word:"MOULIN",  pos:10} }
 ];
 
